@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+<meta charset="ISO-8859-1">
+<title>Employee Center</title>
+<link th:href="@{/styles/employee_page.css}" rel="stylesheet" />
+<style>
+th {
+  border: 2px solid #002147;
+  height: 20px;
+}
+td {
+  border: 2px solid #002147;
+  margin-bottom: .5em;
+  height: 20px;
+  
+}
+</style>
+</head>
+
+<body>
+<div class="grid-container">
+
+	<div class="grid-item item1">
+	<img th:src="@{images/widgits_logo_small.png}" style="width:350px;height:200px;"/>
+	<h2> Employee Page</h2>
+	</div>
+	
+<th:block th:switch="${user.role}">
+<div th:case="ROLE_ADMIN">
+
+<div class="grid-item item2">
+<a class="submit" th:href="@{/index}" ><span>Return to Index</span></a><br>
+<a class="submit" th:href="@{/createButton}" ><span>Add Employee</span></a><br>
+<a class="submit" th:href="@{/searchButton}" ><span>Search Users</span></a><br>
+<a class="submit" th:href="@{/searchButton}" ><span>View a Market Listing</span></a><br>
+<a class="submit" th:href="@{/searchMessageButton}" ><span>View a Message</span></a><br>
+<a class="submit" th:href="@{/messages}" ><span>My Messages</span></a><br>
+<a class="submit" th:href="@{/do_the_logout}" ><span>Logout</span></a><br>
+</div>
+</div>
+<div th:case="ROLE_QUALITYCONTROLLER">
+<div class="grid-item item2">
+<a class="submit" th:href="@{/index}" ><span>Return to Index</span></a><br>
+<a class="submit" th:href="@{/searchTickets}" ><span>Search Tickets</span></a><br>
+<a class="submit" th:href="@{/searchQualityControlTicketButton}" ><span>Search Quality Controller Tickets</span></a><br>
+<a class="submit" th:href="@{/searchButton}" ><span>Search Users</span></a><br>
+<a class="submit" th:href="@{/searchButton}" ><span>View a Market Listing</span></a><br>
+<a class="submit" th:href="@{/searchMessageButton}" ><span>View a Message</span></a><br>
+<a class="submit" th:href="@{/messages}" ><span>My Messages</span></a><br>
+<a class="submit" th:href="@{/do_the_logout}" ><span>Logout</span></a><br>
+</div>
+</div>
+<div th:case="ROLE_CUSTOMERSERVICE">
+<div class="grid-item item2">
+<a class="submit" th:href="@{/index}" ><span>Return to Index</span></a><br>
+<a class="submit" th:href="@{/searchTickets}" ><span>Search Tickets</span></a><br>
+<a class="submit" th:href="@{/searchCustomerServiceTicketButton}" ><span>Search Customer Service Tickets</span></a><br>
+<a class="submit" th:href="@{/searchButton}" ><span>Search Users</span></a><br>
+<a class="submit" th:href="@{/searchButton}" ><span>View a Market Listing</span></a><br>
+<a class="submit" th:href="@{/searchMessageButton}" ><span>View a Message</span></a><br>
+<a class="submit" th:href="@{/messages}" ><span>My Messages</span></a><br>
+<a class="submit" th:href="@{/do_the_logout}" ><span>Logout</span></a><br>
+</div>
+</div>
+<div th:case="ROLE_SALES">
+<div class="grid-item item2">
+<a class="submit" th:href="@{/index}" ><span>Return to Index</span></a><br>
+<a class="submit" th:href="@{/lookupStatistics}" ><span>Statistics</span></a><br>
+<a class="submit" th:href="@{/searchButton}" ><span>Search Users</span></a><br>
+<a class="submit" th:href="@{/searchButton}" ><span>View a Market Listing</span></a><br>
+<a class="submit" th:href="@{/messages}" ><span>My Messages</span></a><br>
+<a class="submit" th:href="@{/do_the_logout}" ><span>Logout</span></a><br>
+</div>
+</div>
+<div th:case="ROLE_HIRINGMANAGER">
+<div class="grid-item item2">
+<a class="submit" th:href="@{/index}" ><span>Return to Index</span></a><br>
+<a class="submit" th:href="@{/searchApplicationsButton}" ><span>Applications</span></a><br>
+<a class="submit" th:href="@{/messages}" ><span>My Messages</span></a><br>
+<a class="submit" th:href="@{/do_the_logout}" ><span>Logout</span></a><br>
+</div>
+</div>
+</th:block>
+
+
+
+<div class="grid-item item3">
+<th:block th:switch="${page}">
+
+	<div th:case="searchMarketListing">
+		<form th:action="@{/searchListing}"  method="post">
+	
+		<label for="widgetName">Enter widget name</label> 
+	
+    	<input type="text" name="widgetName" id="widgetName" ><br>
+
+		<input type="submit" class="submit" value="Search"> 
+	
+		</form>
+	</div>
+	
+	<div th:case="listingResult">
+		<a class="submit" th:href="@{/cancelButton}" ><span>Cancel</span></a><br>
+		<table>
+		<tr>
+		<td><p>Widget ID: </p></td>
+		<td th:text="${searchedWidget.id}"></td>
+		</tr>
+		<tr>
+		<td><p>Widget Name: </p></td>
+		<td th:text="${searchedWidget.name}"></td>
+		</tr>
+		<tr>
+		<td><p>Widget Description: </p></td>
+		<td th:text="${searchedWidget.description}"></td>
+		</tr>
+		<tr>
+		<td><p>Widget Category: </p></td>
+		<td th:text="${searchedWidget.category}"></td>
+		</tr>
+		<tr>
+		<td><p>Market Listing ID: </p></td>
+		<td th:text="${searchedMarket.id}"></td>
+		</tr>
+		<tr>
+		<td><p>Market Listing Seller: </p></td>
+		<td th:text="${seller.username}"></td>
+		</tr>
+		<tr>
+		<td><p>Market Listing Quantity: </p></td>
+		<td th:text="${searchedMarket.qtyAvailable}"></td>
+		</tr>
+		<tr>
+		<td><p>Market Listing Price: </p></td>
+		<td th:text="${searchedMarket.pricePerItem}"></td>
+		</tr>
+		</table>
+	</div>
+	
+	<div th:case="create">
+		<form th:action="@{/createEmployee}" th:object="${useradd}" method="post">
+		<label for="userName">Username</label> 
+    	<input type="text" th:field="*{username}" id="username" >
+    	<span style="color:red" th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></span><br>
+    
+    	<label for="password">Password</label>
+    
+    	<input type="text" th:field="*{password}" id="password" >
+    	<span style="color:red" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></span><br>
+
+    	<label for="email">Email</label>
+		<input type="text" th:field="*{email}" id="email" >
+		<span style="color:red" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></span><br>
+
+		<div>Select Role :</div>
+		<div><select name="role">
+		<option th:each="role : ${roleList}" th:text="${role}"/>
+		</select></div>
+		<input type="submit" class="submit" value="Add Employee"> 
+	
+		</form>
+
+		<a class="submit" th:href="@{/cancelButton}" ><span>Cancel</span></a><br>
+	</div>
+	
+	<div th:case="search">
+		<form th:action="@{/searchUser}" th:object="${useradd}" method="post">
+		<label for="userName">Username</label> 
+    	<input type="text" th:field="*{username}" id="username" >
+    	<span style="color:red" th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></span>
+    
+		<h4>Or Search By:</h4>
+
+    	<label for="email">Email</label>
+		<input type="text" th:field="*{email}" id="email" >
+		<span style="color:red" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></span><br>
+
+
+		<input type="submit" class="submit" value="Search"> 
+	
+		</form>
+	
+		<a class="submit" th:href="@{/cancelButton}" ><span>Cancel</span></a><br>
+
+	<table>
+	<tr>
+	<th> User Name </th>
+	<th> Email Address </th>
+	<th> View Inbox </th>
+	<th> View Outbox </th>
+	<th> View Trash </th>
+	<th> Edit User </th>
+	<th> View User's Market Listings </th>
+	</tr>
+	<th:block  th:each="user: ${users}">
+	<tr> 
+	<td><a th:href="@{/searchUser/{id}(id = ${user.id})}" th:text="${user.username}"></a></td>
+	<td><p th:text="${user.email}"></p></td>
+	<td><a  th:href="@{/viewSpecificUserInbox/{id}(id = ${user.id})}" >inbox</a> </td>
+	<td><a  th:href="@{/viewSpecificUserOutbox/{id}(id = ${user.id})}" >outbox</a> </td>
+	<td><a  th:href="@{/viewSpecificUserTrash/{id}(id = ${user.id})}" >trash</a> </td>
+	<td><a  th:href="@{/editUserButton/{id}(id = ${user.id})}" >Edit User</a></td>
+	<td><a  th:href="@{/viewListing/{id}(id = ${user.id})}" >View User's Market Listings</a></td>
+    </tr>
+    </th:block>
+    </table>
+
+	</div>
+	
+	<div th:case="userResult">
+		<a class="submit" th:href="@{/cancelButton}" ><span>Cancel</span></a><br>
+		<a class="submit" th:href="@{/editUserButton/{id}(id = ${searchedUser.id})}" ><span>Edit User</span></a><br>
+		<a class="submit" th:href="@{/viewListing/{id}(id = ${searchedUser.id})}" ><span>View User's Market Listings</span></a><br>
+		<a class="submit" th:href="@{/viewSpecificUserInbox/{id}(id = ${searchedUser.id})}" ><span>View User's Inbox</span></a><br>
+		<a class="submit" th:href="@{/viewSpecificUserOutbox/{id}(id = ${searchedUser.id})}"><span>View User's Outbox</span></a><br>
+		<a class="submit" th:href="@{/viewSpecificUserTrash/{id}(id = ${searchedUser.id})}" ><span>View User's Trash</span></a><br>
+																		
+		<table>
+		<tr>
+		<td><p>First Name: </p></td>
+		<td th:text="${searchedUser.firstName}"></td>
+		</tr>
+		<tr>
+		<td><p>Last Name: </p></td>
+		<td th:text="${searchedUser.lastName}"></td>
+		</tr>
+		<tr>
+		<td><p>User Name: </p></td>
+		<td th:text="${searchedUser.username}"></td>
+		</tr>
+		<tr>
+		<td><p>Phone Number: </p></td>
+		<td th:text="${searchedUser.phoneNumber}"></td>
+		</tr>
+		<tr>
+		<td><p>Secret Question 1: </p></td>
+		<td th:text="${searchedUser.secret1}"></td>
+		</tr>
+		<tr>
+		<td><p>User Secret1: </p></td>
+		<td th:text="${searchedUser.userSecret1}"></td>
+		</tr>
+		<tr>
+		<td><p>Secret Question 2: </p></td>
+		<td th:text="${searchedUser.secret2}"></td>
+		</tr>
+		<tr>
+		<td><p>User Secret2: </p></td>
+		<td th:text="${searchedUser.userSecret2}"></td>
+		</tr>
+		<tr>
+		<td><p>Secret Question 3: </p></td>
+		<td th:text="${searchedUser.secret3}"></td>
+		</tr>
+		<tr>
+		<td><p>User Secret3: </p></td>
+		<td th:text="${searchedUser.userSecret3}"></td>
+		</tr>
+		</table>
+
+	</div>
+	<div th:case="searchMessage">
+	<table>
+	<tr>
+	<th> User Name </th>
+	<th> Email Address </th>
+	<th> View Inbox </th>
+	<th> View Outbox </th>
+	<th> View Trash </th>
+	</tr>
+	<th:block  th:each="user: ${users}">
+	<tr> 
+	<td><p th:text="${user.username}"></p></td>
+	<td><p th:text="${user.email}"></p></td>
+	<td><a  th:href="@{/viewSpecificUserInbox/{id}(id = ${user.id})}" >inbox</a> </td>
+	<td><a  th:href="@{/viewSpecificUserOutbox/{id}(id = ${user.id})}" >outbox</a> </td>
+	<td><a  th:href="@{/viewSpecificUserTrash/{id}(id = ${user.id})}" >trash</a> </td>
+    </tr>
+    </th:block>
+    </table>
+</div>
+<div th:case="applications">
+<table>
+<tr>
+<th>Applicant Id</th>
+<th>First Name</th>
+<th>Last Name</th>
+<th>Phone Number</th>
+<th>Email Address</th>
+<th>Application Date</th>
+<th>Role Applied For</th>
+<th>Answer 1</th>
+<th>Answer 2</th>
+<th>Answer 3</th>
+<th>Answer 4</th>
+
+</tr>
+<th:block  th:each="applicants: ${applicants}">
+<tr>
+<td> <p th:text="${applicants.id}"></p></td>
+<td> <p th:text="${applicants.firstName}"></p></td>
+<td> <p th:text="${applicants.lastName}"></p></td>
+<td> <p th:text="${applicants.phoneNumber}"></p></td>
+<td> <p th:text="${applicants.email}"></p></td>
+<td> <p th:text="${applicants.applicationDate}"></p></td>
+<td> <p th:text="${applicants.roleAppliedfor}"></p></td>
+<td> <p th:text="${applicants.answer1}"></p></td>
+<td> <p th:text="${applicants.answer2}"></p></td>
+<td> <p th:text="${applicants.answer3}"></p></td>
+<td> <p th:text="${applicants.answer4}"></p></td>
+</tr>
+</th:block>
+</table>
+</div>
+
+
+<!-- Add more here -->
+
+
+
+
+</th:block>
+</div>
+
+
+<div class="grid-item item4">
+
+<th:block th:switch="${edit}">
+<div th:case="user">
+<p>Edit User:</p>
+      <form th:action="@{/editUser}" method="post">
+      <table>
+        	<tr>
+    			<th>ID</th>
+    			<th>Username</th>
+				<th>Password</th>
+				<th>Password Confirmation</th>
+			</tr>
+			<tr>
+  			<td><input type="text" name="id" th:value=${searchedUser.id}></td>
+  			<td><input type="text" name="userName" th:value=${searchedUser.username}></td>
+  			<td><input type="text" name="password"th:value=${searchedUser.password}></td>
+  			<td><input type="text" name="passwordConf" th:value=${searchedUser.passwordconf}></td>
+  			</tr>
+				<tr>
+				<th>Email Address</th>
+				<th>First Name</th>
+				<th>Last Name</th>
+				<th>Phone Number</th>
+				</tr>
+			<tr>
+  			<td><input type="text" name="email" th:value=${searchedUser.email}></td>
+  			<td><input type="text" name="fName" th:value=${searchedUser.firstName}></td>
+  			<td><input type="text" name="lName" th:value=${searchedUser.lastName}></td>
+  			<td><input type="text" name="phoneNumber" th:value=${searchedUser.phoneNumber}></td>
+  			</tr>
+				<tr>	
+				<th>Country Code</th>
+				<th>Role</th>	
+				<th>Email Verification</th>
+				</tr>
+			<tr>
+  			
+  			<td><input type="text" name="cc" th:value=${searchedUser.countryCode}></td>
+  			<td><input type="text" name="role" th:value=${searchedUser.role}></td>
+  			<td><input type="text" name="emailVerification" th:value=${searchedUser.emailVerification}></td>
+  			</tr>
+				<tr>
+				<th>Display Name</th>
+				<th>User Description</th>
+				<th>Creation Date</th>
+				</tr>
+  			<tr>
+  			
+  			<td><input type="text" name="dispName"/></td>
+  			<td><input type="text" name="userDesc"/></td>
+  			<td><input type="text" name="creationDate"/></td>
+
+  			</tr>
+<!-- change seller rating? -->
+
+  		
+
+
+
+
+            
+            
+            
+      </table>
+      <input type="submit" class="submit" value="Edit"/>
+        </form>
+</div>
+</th:block>
+
+<th:block th:switch="${mailpage}">
+<div th:case="inboxPage">
+	<table>
+	<tr>
+	<th> Sender </th>
+	<th> Receiver </th>
+	<th> Subject</th>
+	<th> Content </th>
+	<th> Date </th>
+	</tr>
+	<th:block  th:each="inbox: ${inbox}">
+	<tr> 
+	<td><p th:text="${inbox.sender}"></p></td>
+	<td><p th:text="${inbox.receiverName}"></p></td>
+	<td><p th:text="${inbox.subject}"></p></td>
+	<td><p th:text="${inbox.content}"></p></td>
+	<td><p th:text="${inbox.msgDate}"></p></td>
+    </tr>
+    </th:block>
+    </table>
+</div>
+<div th:case="outboxPage">
+	<table>
+	<tr>
+	<th> Sender </th>
+	<th> Receiver </th>
+	<th> Subject</th>
+	<th> Content </th>
+	<th> Date </th>
+	</tr>
+	<th:block  th:each="outbox: ${outbox}">
+	<tr> 
+	<td><p th:text="${outbox.sender}"></p></td>
+	<td><p th:text="${outbox.receiverName}"></p></td>
+	<td><p th:text="${outbox.subject}"></p></td>
+	<td><p th:text="${outbox.content}"></p></td>
+	<td><p th:text="${outbox.msgDate}"></p></td>
+    </tr>
+    </th:block>
+    </table>
+</div>
+<div th:case="trashPage">
+	<table>
+	<tr>
+	<th> Sender </th>
+	<th> Receiver </th>
+	<th> Subject</th>
+	<th> Content </th>
+	<th> Date </th>
+	</tr>
+	<th:block  th:each="trash: ${trash}">
+	<tr> 
+	<td><p th:text="${trash.sender}"></p></td>
+	<td><p th:text="${trash.receiverName}"></p></td>
+	<td><p th:text="${trash.subject}"></p></td>
+	<td><p th:text="${trash.content}"></p></td>
+	<td><p th:text="${trash.msgDate}"></p></td>
+    </tr>
+    </th:block>
+    </table>
+</div>
+<div th:case="searchMarketListing">
+		<table>
+		<tr>
+		<th>Widget ID</th>
+		<th>Widget Name</th>
+		<th>Widget Description</th>
+		<th>Widget Category</th>
+		<th>Seller</th>
+		<th>Market Listing ID</th>
+		<th>Quantity</th>
+		<th>Price</th>
+		
+		</tr>
+		<th:block  th:each="container: ${container}" >
+
+		<tr>
+		<td th:text="${container.Widget.id}"></td>
+	
+		<td th:text="${container.Widget.name}"></td>
+
+		<td th:text="${container.Widget.description}"></td>
+
+		<td th:text="${container.Widget.category}"></td>
+		
+		<td  th:text="${container.sellers.username}"></td>
+
+		<td   th:text="${container.listings.id}"></td>
+
+		<td th:text="${container.listings.qtyAvailable}"></td>
+
+		<td th:text="${container.listings.pricePerItem}"></td>
+		</tr>
+		</th:block>
+		</table>
+	</div>
+</th:block>
+
+</div>
+      
+  
+
+</div>
+</body>
+</html>

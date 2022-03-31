@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+	<head>
+		<meta charset="ISO-8859-1">
+		<title>Confirm Purchase</title>
+		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+	</head>
+	<body>
+		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+		
+		<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+			<div class="container-fluid">
+				<div class="collapse navbar-collapse" id="navbarSupportedContent">
+					<ul class="navbar-nav me-auto mb-2 mb-lg-0">
+						<li class="nav-item">
+							<a class="nav-link" href="/homePage">Homepage</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" href="/userDetails">User Account</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</nav>
+	
+		<div class="card mx-auto my-5" style="width: 62rem;">
+			<div class="card-header d-flex justify-content-center">
+				<h1>Confirm Purchase</h1>
+			</div>
+			<div th:if="${errMessage != null}" th:text="${errMessage}" class="alert alert-danger d-flex justify-content-center my-3">
+			</div>
+			<div class="card-body">
+				<div class="my-2">
+					<div class="d-flex justify-content-center">
+						<h2>Purchase Details</h2>
+					</div>
+					<ul class="list-group mb-3">
+						<li class="list-group-item">Total Ordered: <span th:text="${purchase.qtyBought}"></span></li>
+						<li class="list-group-item">Price per Item: $<span th:text="${marketListing.pricePerItem}"></span></li>
+						<li class="list-group-item">Total Price Before Taxes: $<span th:text="${purchase.totalPriceBeforeTaxes}"></span></li>
+						<li class="list-group-item">Total Price After Taxes: $<span th:text="${purchase.totalPriceAfterTaxes}"></span></li>
+					</ul>
+				</div>
+				<div class="my-2">
+					<div class="d-flex justify-content-center">
+						<h2>Widget Details</h2>
+					</div>
+					<ul class="list-group mb-3">
+						<li class="list-group-item">Product Name: <span th:text="${widget.name}"></span></li>
+						<li class="list-group-item">Product Description: <span th:text="${widget.description}"></span></li>
+					</ul>
+				</div>
+				
+				<div class="accordion" id="payment-methods">
+					<div class="accordion-item">
+						<h2 class="accordion-header">
+							<button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#creditAccordion">
+								Pay via Credit Card
+							</button>
+						</h2>
+						<div id="creditAccordion" class="accordion-collapse collapse show" data-bs-parent="#payment-methods">
+							<div class="accordion-body">
+								<form method="post" action="#" class="row g-3 d-flex justify-content-center my-2"
+									th:action="@{/confirmPurchase/submitPurchase}"  th:object="${paymentDetails}">
+									<div class="d-flex justify-content-center">
+										<h2>Payment Method</h2>
+									</div>
+									
+									<div class="mb-3">
+										<select class="form-select" id="cardType" name="cardType">
+											<option th:each="type : ${cardTypes}"
+												th:value="${type.cardType}" th:text="${type.cardType}">
+											</option>
+										</select>
+										<p th:if="${cardTypeErr != ''}" th:text="${cardTypeErr}">
+									</div>
+									
+									<div class="mb-3">
+										<label for="cardholderName" class="form-label">Cardholder Name</label>
+										<input type="text" class="form-control" th:field="*{cardholderName}"></input>
+										<p th:text="${cardholderNameErr}" th:if="${cardholderNameErr != null}"></p>
+									</div>
+									<div class="mb-3">
+										<label for="cardNumber" class="form-label">Card Number</label>
+										<input type="number" class="form-control" th:field="*{cardNumber}"></input>
+										<p th:text="${cardNumberErr}" th:if="${cardNumberErr != null}"></p>
+									</div>
+									<div class="mb-3">
+										<label for="expirationDate" class="form-label">Expiration Date</label>
+										<input type="date" class="form-control" th:field="*{expirationDate}"></input>
+										<p th:text="${expirationDateErr}" th:if="${expirationDateErr != null}"></p>
+										<p th:text="${ccExpired}" th:if="${ccExpired != null}"></p>
+									</div>
+									<div class="mb-3">
+										<label for="securityCode" class="form-label">Security Code</label>
+										<input type="number" class="form-control" name="securityCode" id="securityCode" th:field="*{securityCode}"></input>
+										<p th:text="${securityCodeErr}" th:if="${securityCodeErr != null}"></p>
+									</div>
+									<div class="mb-3">
+										<label for="postalCode" class="form-label">Postal Code</label>
+										<input type="number" class="form-control" name="postalCode" id="postalCode" th:field="*{postalCode}"></input>
+										<p th:text="${postalCodeErr}" th:if="${postalCodeErr != null}"></p>
+									</div>
+									<!-- Purchase decisions -->
+									<div class="d-flex justify-content-evenly mb-3">
+										<button class="btn btn-danger btn-lg" type="submit" name="cancel">Cancel</button>
+										<button th:if="${user.paymentDetails != null}" class="btn btn-primary btn-lg"
+											 type="submit" name="submit">Purchase Item</button>
+										<button th:if="${user.paymentDetails == null}" class="btn btn-danger btn-lg"
+											disabled>Purchase Disabled</button>
+									</div>
+								</form>
+							</div>
+						</div>
+					</div>
+					<div class="accordion-item">
+						<h2 class="accordion-header">
+							<button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#paypalAccordion">
+								Pay via PayPal
+							</button>
+						</h2>
+						<div id="paypalAccordion" class="accordion-collapse collapse" data-bs-parent="#payment-methods">
+							<div class="accordion-body">
+								<div class="d-flex justify-content-center">
+									<h2>Paypal Details</h2>
+								</div>
+								<form method="post" action="#" class="row g-3 d-flex justify-content-center my-2"
+									th:action="@{/confirmPurchase/submitPurchasePaypal}"  th:object="${paypal}">
+									<div class="mb-3">
+										<label class="form-label">Paypal Email</label>
+										<input type="email" class="form-control" name="paypalLogin" id="paypalLogin" th:field="*{paypalLogin}"></input>
+										<p th:text="${paypalLoginErr}" th:if="${paypalLoginErr != null}"></p>
+									</div>
+									<div class="mb-3">
+										<label class="form-label">Paypal Password</label>
+										<input type="password" class="form-control" name="paypalPassword" id="paypalPassword" th:field="*{paypalPassword}"></label>
+										<p th:text="${paypalPasswordErr}" th:if="${paypalPasswordErr != null}"></p>
+									</div>
+									<div class="d-flex justify-content-evenly mb-3">
+										<button class="btn btn-danger btn-lg" type="submit" name="cancel">Cancel</button>
+										<button class="btn btn-primary btn-lg" type="submit" name="submit">Purchase</button>
+									</div>
+								</form>
+							</div>
+						</div>
+					</div>
+				</div>
+
+			</div>
+
+		</div>
+	</body>
+</html>

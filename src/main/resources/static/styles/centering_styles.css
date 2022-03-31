@@ -1,0 +1,34 @@
+.center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 50%;
+}
+.centerz {
+  position: relative;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 10%;
+}
+.centera {
+  margin: 10px;
+  position: relative;
+  top: 55%;
+  left: 35%;
+  
+}
+.centerb {
+  margin: 10px;
+  position: relative;
+  top: 100%;
+  left: 20%;
+ 
+}
+.centerc {
+  margin: 10px;
+  position: relative;
+  top: 145%;
+  left: 20%;
+
+}

@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+    <head>
+        <title>Login</title>
+        <link th:href="@{/styles/login.css}" rel="stylesheet" />
+    </head>
+    <body>
+    
+    
+    <div class="grid-container">
+
+
+
+
+ 	<div class="grid-item item1">
+ 	    <form th:action="@{/apply}" th:object="${applicant}" method="post">
+
+    <label for="firstName">First Name</label>
+    
+    <input type="text" th:field="*{firstName}" id="firstName" ><br>
+    <span style="color:red" th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}"></span><br>
+    
+    <label for="lastName">Last Name</label>
+    
+    <input type="text" th:field="*{lastName}" id="lastName" ><br>
+    <span style="color:red" th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"></span><br>
+    
+    <label for="phoneNumber">Phone Number</label>
+    
+    <input type="text" th:field="*{phoneNumber}" id="phoneNumber" ><br>
+    <span style="color:red" th:if="${#fields.hasErrors('phoneNumber')}" th:errors="*{phoneNumber}"></span><br>
+    <label for="email">Email</label>
+	<input type="text" th:field="*{email}" id="email"><br>
+	<span style="color:red" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></span><br>
+	<label for="roleAppliedfor">Which role will you be applying for?</label>
+	<input type="text" th:field="*{roleAppliedfor}" id="roleAppliedfor"><br>
+	<span style="color:red" th:if="${#fields.hasErrors('roleAppliedfor')}" th:errors="*{roleAppliedfor}"></span><br>
+	<h3> For the following questions please summarize in approx. 200 words </h3>
+	
+	<p> Question 1: Think of a time when working in a team setting where you were in a leadership role
+	 and there was a disagreement between team members in completing a difficult task.</p>
+	 <p> How did you reconcile the disagreement and how did you overcome these challenges?</p>
+	 <textarea id="answer1" th:field="*{answer1}" rows="4" cols="50"></textarea>
+	<span style="color:red" th:if="${#fields.hasErrors('answer1')}" th:errors="*{answer1}"></span><br>
+	<p> Question 2: How would you describe yourself when it comes to dealing with stress and difficult tasks?</p>
+	<textarea id="answer2" th:field="*{answer2}" rows="4" cols="50"></textarea>
+	<span style="color:red" th:if="${#fields.hasErrors('answer2')}" th:errors="*{answer2}"></span><br>
+	<p> Question 3: Tell us what are the 3 most important attributes of a good employee and how you fit these criteria.</p>
+	<textarea id="answer3" th:field="*{answer3}" rows="4" cols="50"></textarea>
+	<span style="color:red" th:if="${#fields.hasErrors('answer3')}" th:errors="*{answer3}"></span><br>
+	<p> Question 4: Why do you think you would be a good fit for our company?</p>
+	<textarea id="answer4" th:field="*{answer4}" rows="4" cols="50"></textarea>
+	<span style="color:red" th:if="${#fields.hasErrors('answer4')}" th:errors="*{answer4}"></span><br>
+			
+    <input id = "myapplicationbutton" type="submit" value="Submit Application" >  
+  </form>
+ 	</div>
+ 	<div class="grid-item item4">
+ 	
+ 	</div>
+ 	<div class="grid-item item5">
+ 	
+ 	</div>
+ 	<div class="grid-item item6">
+ 	
+ 	</div>
+ 	<div class="grid-item item7">
+ 	
+ 	</div>
+ 	<div class="grid-item item8">
+ 	
+ 	</div>
+ 	<div class="grid-item item9">
+ 	
+ 	</div>
+ 	
+ 	 	
+ 	 	</div>
+
+    </body>
+</html>

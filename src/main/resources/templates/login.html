@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+    <head>
+        <title>Login</title>
+        <link th:href="@{/styles/login.css}" rel="stylesheet" />
+    </head>
+    <body>
+    
+    
+    <div class="grid-container">
+
+
+
+
+ 	<div class="grid-item item1">
+ 	    <H1>The Login Page</H1><br>
+        <div th:if="${param.error}">
+            Invalid username and password.
+        </div>
+        <div th:if="${param.logout}">
+            You have been logged out.
+        </div>
+       
+        <form th:action="@{/login}" method="post">
+            <div><label> User Name : <input type="text" name="username"/> </label></div>
+            <a th:href="@{/forgotUser/{id}(id = 0)}">Forgot Username?</a><br><br>
+            <div><label> Password: <input type="password" name="password"/> </label></div>
+            <a th:href="@{/forgotUser/{id}(id = 1)}">Forgot Password?</a><br><br>
+            <input type="submit" class="submit" value="Sign In"> <br/>
+        <a class="submit" th:href="@{/index}" > <span>Return to Index</span></a>
+        </form>
+ 	</div>
+ 	<div class="grid-item item4">
+ 	
+ 	</div>
+ 	<div class="grid-item item5">
+ 	
+ 	</div>
+ 	<div class="grid-item item6">
+ 	
+ 	</div>
+ 	<div class="grid-item item7">
+ 	
+ 	</div>
+ 	<div class="grid-item item8">
+ 	
+ 	</div>
+ 	<div class="grid-item item9">
+ 	
+ 	</div>
+ 	
+ 	 	
+ 	 	</div>
+
+    </body>
+</html>

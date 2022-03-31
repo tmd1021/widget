@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+    <head>
+        <title>Forgot User</title>
+        <link th:href="@{/styles/login.css}" rel="stylesheet" />
+    </head>
+    <body>
+    
+    
+    <div class="grid-container">
+
+
+
+
+ 	<div class="grid-item item1">
+ 	<th:block th:switch="${page}">
+ 	<div th:case="email">
+ 	    <H1>Let's Recover Your account</H1><br>
+ 	    <p> Please enter the email address associated with your account.</p>
+ 	    <form th:action="@{/findUser}"  method="post">
+
+
+    	<label for="email">Email</label>
+		<input type="text" name="email"/>
+		
+
+
+		<input type="submit" class="submit" value="Search"> 
+	
+	</form>
+	</div>
+	<div th:case="findUserFail">
+ 	    <H1>Let's Recover Your account</H1><br>
+ 	    <h2>That email address is not associated with an account</h2>
+ 	    <p> Please enter the email address associated with your account.</p>
+ 	    <form th:action="@{/findUser}"  method="post">
+
+
+    	<label for="email">Email</label>
+		<input type="text" name="email"/>
+		
+
+
+		<input type="submit" class="submit" value="Search"> 
+	
+	</form>
+	</div>
+	<div th:case="user">
+ 	<p> An email with your username has been sent to your inbox.</p>
+ 	<a class="submit" th:href="@{/index}" ><span>Return</span></a><br>
+    </div>
+    <div th:case="pass">
+ 	<p> Please answer your secret question.</p>
+ 	<h3 th:text="${question}" ></h3>
+ 	<form th:action="@{/answerQuestion}"  method="post">
+
+
+    	
+		<input type="text" name="answer"/>
+		
+
+
+		<input type="submit" class="submit" value="Answer"> 
+	
+	</form>
+ 	
+    </div>
+    <div th:case="wrong">
+ 	<p> Please answer your secret question.</p>
+ 	<h3 th:text="${question}" ></h3>
+ 	<form th:action="@{/answerQuestion}"  method="post">
+
+
+    	
+		<input type="text" name="answer"/>
+		<p> That answer was not a match </p>
+		
+
+
+		<input type="submit" class="submit" value="Answer"> 
+	
+	</form>
+ 	
+    </div>
+    <div th:case="reset">
+     <form th:action="@{/resetPassword}"   method="post">
+       
+	<p> Please enter a new Password.</p>
+ 
+	<input type="text" name="pass"/>
+	<p> Please re-enter Password.</p>
+ 
+	<input type="text" name="pass2"/><br>
+    
+			
+    <input id = "pwordresetbutton" type="submit" value="Reset Password" >  
+  	</form>
+  	</div>
+  	<div th:case="resetfail">
+     <form th:action="@{/resetPassword}"   method="post">
+    <h3>Please enter matching passwords with a length of at least 6 characters</h3>
+	<p> Please enter a new Password.</p>
+ 
+	<input type="text" name="pass"/>
+	<p> Please re-enter Password.</p>
+ 
+	<input type="text" name="pass2"/><br>
+    
+			
+    <input id = "pwordresetbutton" type="submit" value="Reset Password" >  
+  	</form>
+  	</div>
+  	<div th:case="resetSuccess">
+ 	<p> Your password has been updated.</p>
+ 	<a class="submit" th:href="@{/index}" ><span>Return</span></a><br>
+    </div>
+</th:block>
+    
+    
+    
+ 	</div>
+ 	<div class="grid-item item4">
+ 	
+ 	</div>
+ 	<div class="grid-item item5">
+ 	
+ 	</div>
+ 	<div class="grid-item item6">
+ 	
+ 	</div>
+ 	<div class="grid-item item7">
+ 	
+ 	</div>
+ 	<div class="grid-item item8">
+ 	
+ 	</div>
+ 	<div class="grid-item item9">
+ 	
+ 	</div>
+ 	
+ 	 	
+ 	 	</div>
+
+    </body>
+</html>
