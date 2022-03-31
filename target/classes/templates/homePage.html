@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http:www.thymeleaf.org">
+	<head>
+		<meta charset="ISO-8859-1">
+		<title>Home Page</title>
+	<link th:href="@{/styles/button.css}" rel="stylesheet" />
+	<link th:href="@{/styles/landing.css}" rel="stylesheet" />
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+	
+	</head>
+	<body class="pageBody">
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+	
+	<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+			<div class="container-fluid">
+				<div class="collapse navbar-collapse" id="navbarSupportedContent">
+					<ul class="navbar-nav me-auto mb-2 mb-lg-0">
+						<li class="nav-item">
+							<a class="nav-link" href="/homePage">Homepage</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" href="/userDetails">User Account</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</nav>
+	
+		<h1>Home Page</h1>
+		<br>
+		<img class="center"th:src="@{images/widgits_logo_small.png}" style="width:50%;height:30%px;"/>
+		<br>
+	<div class="container">
+		<div>
+		<a class="btn btn-secondary" th:href="@{/addWidget}"><span>Create Widget</span></a>
+		<a class="btn btn-secondary" th:href="@{/do_the_logout}"> <span>Logout</span></a>
+		<a class="btn btn-secondary" th:href="@{/messages}"> <span>Messages</span></a>
+		<br>
+	<script>
+	var subjectObject = {
+			  "appliance": {
+			    "washer": [],
+			    "dryer":[],
+			    "microwave":[],
+			    "fridge":[]},
+			  "electronic": {
+			    "computer":[],
+			    "videoGame":[]},
+			  "lawnCare" :{
+				"lawnMower" :[]
+			  },
+			  "vehicle" :{
+				"car" :[]
+			  }
+			}
+			
+			window.onload = function() {
+			  var categorySel = document.getElementById("categories");
+			  var subCatSel = document.getElementById("subCategories");
+			  for (var x in subjectObject) {
+				  categorySel.options[categorySel.options.length] = new Option(x, x);
+			  }
+			  categorySel.onchange = function() {
+			    //empty Chapters- and Topics- dropdowns
+			    subCatSel.length = 1;
+			    //display correct values
+			    for (var y in subjectObject[this.value]) {
+			    	subCatSel.options[subCatSel.options.length] = new Option(y, y);
+			    }
+			  }
+			}
+	</script>
+		<br>
+		<form action="search" th:action="@{/search}" th:object="${widget}" method="get" class="form-horizontal">
+		<div class="row">
+		<div class="form-group col-xs-2">
+			
+			<label class="" for="categories">Select Category:</label>
+			<select class="" id="categories" name="category">
+				<option value="all">All</option>
+				
+			</select>
+			<label class="" for="subCategories">Select SubCategory:</label>
+			<select class="" id="subCategories" name="subCategory">
+				<option value="all">All</option>
+				
+			</select>
+		</div>
+		</div>
+			<br>
+		<div class="row">
+		<div class="form-group">
+			<div class="col-lg-4">
+			<label class="" for="SearchBar">Search Bar</label>
+			<input class="" type="search" value="" id="SearchBar" placeholder="search bar" name="searchString">
+			</div>
+			<div class="col-xs-1">
+			<label class="" for="priceFilter">Filter By Price:</label>
+			<select class="" id="priceFilter" name="operator">
+				<option value="greater">Greater Than</option>
+				<option value="lesser">Less Than</option>
+			</select>
+			<input class="" type="number" value="" name="price" min="1" max="1000000" step="0.01">
+			<input class="btn btn-primary" type = "submit" value="Search" id="SearchButton"><br>
+			</div>
+		</div>
+		</div>
+		</div>
+	</div>
+			<!-- List of purchased Transactions -->
+			<div>
+				<table>
+					<thead>
+						<tr>
+							<th class="text">Purchase Date</th>
+							<th class="text">Number Bought</th>
+							<th class="text">Net Price</th>
+							<th class="text">Product Name</th>
+							<th class="text">View Order</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="purchase : ${purchases}">
+							<td class="text" th:text="${purchase.purchaseDate}">
+							<td class="text" th:text="${purchase.qtyBought}">
+							<td class="text">
+								<p>$<span  th:text="${purchase.totalPriceAfterTaxes}"></span></p>
+							</td>
+							<td class="text" th:text="${purchase.marketListing.widgetSold.name}">
+							<td class="text"><a th:href="@{viewTransactionDetails/{transId}(transId = ${purchase.id})}">Open Purchase</a></td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<!-- List of sold Transactions -->
+			<div>
+				<table>
+					<thead>
+						<tr>
+							<th class="text">Purchase Date</th>
+							<th class="text">Number Bought</th>
+							<th class="text">Profit</th>
+							<th class="text">Product Name</th>
+							<th class="text">View Order</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="sold : ${soldTrans}">
+							<td class="text" th:text="${sold.purchaseDate}">
+							<td class="text" th:text="${sold.qtyBought}">
+							<td class="text">$<span th:text="${sold.sellerProfit}"></span> </td>
+							<td class="text" th:text="${sold.marketListing.widgetSold.name}">
+							<td class="text"><a th:href="@{viewTransactionDetails/{transId}(transId = ${sold.id})}">Open Sold Item</a>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			
+		</form>
+		<br/>
+	</body>
+
+</html> 

@@ -1,0 +1,90 @@
+.grid-container {
+  display: grid;
+background-color: white;
+width:1500px;
+height:900px;
+}
+
+.grid-item {
+  text-align: center;
+  position: static;
+  width: 100%;
+
+
+}
+
+.item1 {
+  background-color: #faf0e6;
+  border: 5px solid #002147;
+  grid-column: 1 / span 3;
+  grid-row: 1;
+
+  
+}
+
+.item2 {
+  background-color: #faf0e6;
+  border: 5px solid #002147;
+  grid-column: 1;
+  grid-row: 2 / span 2;
+
+}
+.item3 {
+  background-color: #faf0e6;
+  border: 5px solid #002147;
+  grid-column: 2;
+  grid-row: 2 / span 2;;
+
+}
+.item4 {
+  background-color: #faf0e6;
+  border: 5px solid #002147;
+  grid-column: 3;
+  grid-row: 2 / span 2;;
+
+}
+.item5 {
+  grid-column: 2;
+  grid-row: 2;
+
+  
+}
+.item6 {
+  grid-column: 3;
+  grid-row: 2;
+
+}
+.item7 {
+  grid-column: 1;
+  grid-row: 3;
+
+}
+.item8 {
+  grid-column: 2;
+  grid-row: 3;
+
+}
+.item9 {
+  grid-column: 3;
+  grid-row: 3;
+
+}
+.submit {
+	
+	display: inline-block;
+	background-color: #66ff99;
+	border-style: solid;
+	border-radius: 12px;
+    width: 30%;
+    height: 20%;
+	
+	font-weight: bold;
+	color: black;
+	text-align: center;
+	text-decoration: none;
+	transition: all 1.25s;
+}
+.submit:hover{
+  background-color: #00008b;
+  color: white;
+}

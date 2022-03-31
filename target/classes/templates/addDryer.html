@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http:www.thymeleaf.org">
+	<head>
+		<meta charset="ISO-8859-1">
+		<title>Add Widget</title>
+		<link th:href="@{/styles/newWidgets.css}" rel="stylesheet" />
+		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+		
+	</head>
+	<body class="pageBody">
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+	<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+			<div class="container-fluid">
+				<div class="collapse navbar-collapse" id="navbarSupportedContent">
+					<ul class="navbar-nav me-auto mb-2 mb-lg-0">
+						<li class="nav-item">
+							<a class="nav-link" href="/homePage">Homepage</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" href="/userDetails">User Account</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</nav>
+		<h1>Create a Widget</h1><br>
+		<form action="#" th:action="@{/createDryer}" th:object="${dryer}" method="post" class="form">
+			<label for="name" class="text">Provide a title for the post</label>
+			<input type="text" id="name" class="box" name="name">
+			<br>
+			<label for="description" class="text">Description</label>
+			<input type="text" id="description" class="box" name="description">
+			<br>
+			<label for="applianceLength" class="text">Appliance Length</label>
+			<input class="box" type="number" th:field="*{length}" id="applianceLength" name="length" min="1" max="1000000" value="">
+			<p class="text">Inches</p>
+			<label for="applianceWidth" class="text">Appliance Width</label>
+			<input class="box" type="number" th:field="*{width}" id="applianceWidth" name="width" min="1" max="1000000" value="">
+			<p class="text">Inches</p>
+			<label for="applianceHeight" class="text">Appliance Height</label>
+			<input class="box" type="number" th:field="*{height}" id="applianceHeight" name="height" min="1" max="1000000" value="">
+			<p class="text">Inches</p>
+			<label for="applianceColor" class="text">Appliance Color</label>
+			<input class="box" type="text" th:field="*{color}" id="applianceColor" name="color">
+			
+			<label for="itemCondition" class="text">Appliance Condition</label>
+			<input class="box" type="text" th:field="*{itemCondition}" id="itemCondition" name="itemCondition">
+			
+			<br>
+			
+			<label for="model" class="text">Model</label>
+			<input class="box" type="text" th:field="*{model}" id="model" name="model">
+			<br>
+			<label for="brand" class="text">Brand</label>
+			<input class="box" type="text" th:field="*{brand}" id="brand" name="brand">
+			<br>
+			<label for="material" class="text">Material</label>
+			<input class="box" type="text" th:field="*{material}" id="material" name="material">
+			<br>
+			<input class="submit" type="submit" value="Next">
+		</form>
+		
+	</body>
+
+</html>

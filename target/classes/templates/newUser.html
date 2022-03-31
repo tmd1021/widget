@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<title>Sign Up!</title>
+<link th:href="@{/styles/button.css}" rel="stylesheet" />
+<link th:href="@{/styles/centering_styles.css}" rel="stylesheet" />
+<link th:href="@{/styles/wrapper.css}" rel="stylesheet" />
+<link th:href="@{/styles/signup.css}" rel="stylesheet" />
+
+<style>
+th{
+  border: 1px solid black;
+  background-color: #e9ecef;
+  
+}
+tr{
+  border: 1px solid black;
+  padding:15px;
+}
+table{
+  padding:15px;
+  margin: 50px;
+  border-spacing: 0 15px;
+  border-collapse: seperate;
+}
+
+</style>
+</head>
+<body>
+<div class="grid-container">
+  <div class="grid-item item1">
+  	<img align="left" th:src="@{images/widgits_logo.png}" style="width:400px;height:125px;"/>
+  	<H2> Time for the Formalities - Your Basic Sign Up Page </H2>
+  </div>
+
+  <div class="grid-item item5">
+  
+  
+  
+  
+  
+    
+  
+  
+      <form action="#" th:action="@{/add-user-signup}" onsubmit="return myFunction()" th:object="${user}" method="post">
+       <table class="center">
+       <tr>
+       <th colspan="3"><h3>Enter your information</h3></th>
+       </tr>
+   <tr> <td><label for="firstName">First Name</label></td> 
+    
+    <td> <input type="text" th:field="*{firstName}" id="firstName" ></td></tr>
+    
+
+	
+    <tr> <td>   <span style="color:red" th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}"></span> </td> </tr>
+    
+     <tr> <td> <label for="lastName">Last Name</label> </td> 
+    
+     <td> <input type="text" th:field="*{lastName}" id="lastName" ></td> </tr>
+     <tr> <td>  <span style="color:red" th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"></span></td> </tr>
+    
+     <tr> <td> <label for="phoneNumber">Phone Number</label></td> 
+    
+    
+	 
+     <td>  <select style="width:20%" th:field="*{countryCode}">
+	  <option th:each="countryCode : ${countryCodes}" th:value ="${countryCode}" th:text="${countryCode}"/>
+	</select>
+	
+      <input type="text" style="width:30%" th:field="*{phoneNumber}" id="phoneNumber" ></td></tr>
+      
+
+	
+	
+     <tr> <td>  <span style="color:red" th:if="${#fields.hasErrors('phoneNumber')}" th:errors="*{phoneNumber}"></span></td> </tr>
+       
+     <tr> <td>  <label for="userName">Username</label></td> 
+    
+      <td>  <input type="text"  th:field="*{username}" id="username" ></td> </tr>
+     <tr> <td>  <span style="color:red" th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></span></td> </tr>
+    
+     <tr> <td>  <label for="password">Password</label></td> 
+    
+     <td> <input type="text" th:field="*{password}" id="password" ></td> </tr>
+     
+   
+	
+	
+     <tr> <td>  <span style="color:red" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></span></td> </tr>
+    
+      <tr> <td>   <label for="passwordconf">Re-Enter Password</label></td> 
+    
+     <td>  <input type="text" th:field="*{passwordconf}" id="passwordconf" ></td> </tr>
+    <tr> <td>  <span style="color:red" th:if="${#fields.hasErrors('passwordconf')}" th:errors="*{passwordconf}"></span></td> </tr>
+    
+     <tr> <td> <label for="email">Email</label></td> 
+	 <td>  <input type="text" th:field="*{email}" id="email"></td> </tr>
+	 <tr> <td>  <span style="color:red" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></span></td> </tr>
+	
+	 <tr> <td>  <label for="userDescription">User Description</label></td> 
+	  <td>  <input th:field="*{userDescription}" id="userDescription" ></td> </tr>
+	         <tr>
+       <th colspan="3"><h3>Secret Questions Help Recover Password</h3></th>
+       </tr>
+	<tr><td><label for="secret1">Secret Question 1:</label></td>
+    <td><div><select th:field="*{secret1}">
+	<option th:each="secret1 : ${secretQuestion1}" th:value = "${secret1}"th:text="${secret1}"/>
+	</select></div></td>
+	<td><input type="text" th:field="*{userSecret1}"/></td></tr> 
+	<tr> <td>   <span style="color:red" th:if="${#fields.hasErrors('userSecret1')}" th:errors="*{userSecret1}"></span> </td> </tr>
+			
+    <tr><td><label for="secret2">Secret Question 2:</label></td>
+    <td><div><select th:field="*{secret2}">
+	<option th:each="secret2 : ${secretQuestion2}" th:value = "${secret2}"th:text="${secret2}"/>
+	</select></div></td>
+	<td><input type="text" th:field="*{userSecret2}"/></td></tr> 
+	<tr> <td>   <span style="color:red" th:if="${#fields.hasErrors('userSecret2')}" th:errors="*{userSecret2}"></span> </td> </tr>
+		
+	<tr><td><label for="secret3">Secret Question 3:</label></td>
+    <td><div><select th:field="*{secret3}">
+	<option th:each="secret3 : ${secretQuestion3}" th:value = "${secret3}"th:text="${secret3}"/>
+	</select></div></td>
+	<td><input type="text" th:field="*{userSecret3}"/></td></tr> 
+	<tr> <td>   <span style="color:red" th:if="${#fields.hasErrors('userSecret3')}" th:errors="*{userSecret3}"></span> </td> </tr>	
+			         <tr>
+       <th colspan="3"><h3>Finally Enter the Captcha Below</h3></th>
+       </tr>
+
+     <tr> <td>  <label for="Captcha">Captcha</label></td> 
+    <td>  <img th:src="*{'data:realCaptcha/jpg;base64,'+ realCaptcha}"/>
+    	  <input type="hidden" th:field="*{hiddenCaptcha}"/><br>
+    	 <tr> <td> <label for="Captcha">Captcha Answer</label></td> 
+		 <td> 	<input type="text" th:field="*{captcha}" class="form-control"/></td> </tr>
+		 <tr> <td>  	<span style="color:red" th:if="${#fields.hasErrors('captcha')}" th:errors="*{captcha}"></span></td> </tr>
+			
+
+   
+    </table>
+
+     <input id = "mysignupbutton" class="submit" type="submit" value="Add User" > 
+  </form>
+  </div>
+  <script>
+function myFunction() {
+
+	document.getElementById('mysignupbutton').setAttribute('disabled', 'disabled');
+}
+</script>
+  
+  
+ 	<div class="grid-item item7">
+ <a  th:href="@{/missionStatement}" > <span>Mission Statement</span></a><br>
+  <a  th:href="@{/FAQ}" > <span>Frequently Asked Questions</span></a><br>
+    <a  th:href="@{/application}" > <span>Work With Us</span></a><br>
+ 	</div>
+ 	 	<div class="grid-item item8">
+ <a  th:href="@{/missionStatement}" > <span>Mission Statement</span></a><br>
+  <a  th:href="@{/FAQ}" > <span>Frequently Asked Questions</span></a><br>
+    <a  th:href="@{/application}" > <span>Work With Us</span></a><br>
+ 	</div>
+ 	 	<div class="grid-item item9">
+ <a  th:href="@{/missionStatement}" > <span>Mission Statement</span></a><br>
+  <a  th:href="@{/FAQ}" > <span>Frequently Asked Questions</span></a><br>
+    <a  th:href="@{/application}" > <span>Work With Us</span></a><br>
+ 	</div>
+
+
+  
+  
+ 
+
+
+
+</div>
+</body>
+</html>

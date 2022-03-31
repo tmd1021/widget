@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+<meta charset="ISO-8859-1">
+<title>Index</title>
+<link th:href="@{/styles/centering_styles.css}" rel="stylesheet" />
+<link th:href="@{/styles/index.css}" rel="stylesheet" />
+</head>
+<body>
+
+<div class="grid-container">
+
+
+
+
+ 	<div class="grid-item item1">
+ 	<h1> Welcome </h1>
+ 	</div>
+ 	 	
+ 	 	
+ 	 	
+
+ 	
+ 	
+ 	
+ 	
+
+ 	
+ 	 	<div class="grid-item item5">
+ 
+
+ 	 	
+ 	 	<div th:switch="${users}">
+	
+	
+	<img class="center"th:src="@{images/widgits_logo_small.png}" style="width:50%;height:30%px;"/>
+	
+
+    <a class="submit" th:href="@{/homePage}" > <span>Login</span></a><br/>
+
+    <a class="submit" th:href="@{/newUser}" > <span>Sign Up</span></a><br/>
+   
+    <a class="submit" th:href="@{/userWidgetTestPage}" > <span>Browse</span></a><br/>
+    
+    <a class="submit" th:href="@{/emailverification}" > <span>Verify Email</span></a><br/>
+    </div>
+
+      
+  
+
+</div>
+
+ 	
+ 	 
+ 	 
+
+ 	 
+
+ 	
+ 	
+ 	<div class="grid-item item7">
+ <a  th:href="@{/missionStatement}" > <span>Mission Statement</span></a><br>
+  <a  th:href="@{/FAQ}" > <span>Frequently Asked Questions</span></a><br>
+    <a  th:href="@{/application}" > <span>Work With Us</span></a><br>
+ 	</div>
+ 	 	<div class="grid-item item8">
+ <a  th:href="@{/missionStatement}" > <span>Mission Statement</span></a><br>
+  <a  th:href="@{/FAQ}" > <span>Frequently Asked Questions</span></a><br>
+    <a  th:href="@{/application}" > <span>Work With Us</span></a><br>
+ 	</div>
+ 	 	<div class="grid-item item9">
+ <a  th:href="@{/missionStatement}" > <span>Mission Statement</span></a><br>
+  <a  th:href="@{/FAQ}" > <span>Frequently Asked Questions</span></a><br>
+    <a  th:href="@{/application}" > <span>Work With Us</span></a><br>
+ 	</div>
+ 	
+ 	
+ 	
+
+
+</div>
+</body>
+</html>

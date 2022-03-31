@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<title>This is your Messaging App!</title>
+
+<link th:href="@{/styles/messages.css}" rel="stylesheet" />
+
+<style>
+th {
+  border: 2px solid #002147;
+  height: 20px;
+}
+td {
+  border: 2px solid #002147;
+  margin-bottom: .5em;
+  height: 20px;
+  
+}
+table {
+
+  table-layout:fixed; width:1290px;
+  border-collapse: collapse;
+}
+table.center {
+  margin-left: auto; 
+  margin-right: auto;
+}
+</style>
+</head>
+<body>
+<div class="grid-container">
+  <div class="grid-item item1">
+  	<img align="left" th:src="@{images/widgits_logo.png}" style="width:200px;height:80px;"/>
+  	<H1> This is where Messages go </H1>
+  </div>
+  
+  <div class="grid-item item3" >
+
+  
+
+<a class="submit" th:href="@{/messages}" ><span>Inbox</span></a>
+<a class="submit" th:href="@{/outbox}" ><span>Sent</span></a>
+<a class="submit" th:href="@{/trashbox}" ><span>Trash</span></a>
+<a class="submit" th:href="@{/homePage}" ><span>Return</span></a>
+<th:block th:switch="${page2}">
+<div th:case="ticket">
+  
+  	<img align="left" th:src="@{images/widgits_logo.png}" style="width:200px;height:80px;"/>
+  	<H3> Sorry to hear your getting spam, would you care to elaborate or just send? </H3>
+  	<a class="submit" th:href="@{/elaborate}" ><span>Explain</span></a>
+	<a class="submit" th:href="@{/justSend}" ><span>Just Send It</span></a>
+
+</div>
+<div th:case="elaborate">
+  <p>choose category</p>
+  <p>feedback</p>
+ 
+
+</div>
+</th:block>			
+<!--  <form action="/trash">						
+<button type="submit"id ="trashButton" style = "color:red; visibility: hidden;width: 300px;" class="submit" ><span>Send Selected To Trash</span></button>
+</form>-->
+  
+  
+  
+  </div>  
+  <div class="grid-item item4">
+  
+  
+  
+  
+  
+  
+  
+  
+  
+
+<th:block th:switch="${view}">
+<div th:case="false">
+
+<th:block th:switch="${page}">
+<div th:case="home">
+  <h2 style="text-align:center"> Inbox </h2>
+  </div>
+    <div th:case="outbox">
+    	<h2 style="text-align:center"> Sent </h2>
+    </div>
+    	<div th:case="trashBox">
+    		<h2 style="text-align:center"> Trash </h2>
+    	</div>
+    </th:block>
+              <th:block th:switch="${page}">
+            <div th:case="sent">
+            <h3> Message Sent Successfully </h3>
+            </div>
+            </th:block>
+            <th:block th:switch="${page}">
+            <div th:case="fail">
+            <h3> That is not a valid username </h3>
+            </div>
+            </th:block>
+  
+      <form th:action="@{/sendmail}" method="post">
+      <table class="center" style="background-color: #faf0e6; border: 2px solid #002147;">
+        	<tr>
+    			<th>Compose Message</th>
+  			</tr>
+  			<tr>
+  			<td><div><label> To : <input type="text" name="recipient"/> </label></div></td>
+  			</tr>
+            <tr>
+            <td><div><label> Subject : <input type="text" name="subject"/> </label></div></td>
+            </tr>
+            <tr>
+            <td><div><label> Message: </label></div>
+           <textarea id="message" name="message" rows="4" cols="50"></textarea>
+            <div><input type="submit" class="submit" value="Send"/></div></td>
+            </tr>
+      </table>
+        </form>
+    <!--      	<form action="/spamButton" method="post">
+							<button type="submit" class="submit">spam</button>-->
+						
+ <form th:action="@{/trash}" method="post">
+     <input id ="trashButton" style = "width: 300px; bottom: 0px; visibility: hidden; z-index: 101;" class="submit3" type="submit" value="Send Selected to Trash"/>
+	<table class="fixed center">
+	
+  <tr>
+  		<th:block th:switch="${page}">
+  		<th style="width:40px"> <input type="checkbox"/></th>
+  		
+    	<div th:case="home">
+    		<th > From</th>
+    	</div>
+    	<div th:case="sent">
+    		<th > From</th>
+    	</div>
+    	
+    	<div th:case="trashBox">
+    		<th> From</th>
+    	</div>
+    
+    	<div th:case="outbox">
+    		<th > Sent To</th>
+    	</div>
+    
+    	</th:block>
+    <th>Subject</th>
+    <th > Date</th>
+  </tr>
+  
+<script>
+var count = 0;
+function myFunction(id, color) {
+
+var element = document.getElementById(id);
+
+document.getElementById("trashButton").style.visibility = "visible";
+
+
+if(element.style.backgroundColor == "rgb(220, 53, 69)"){
+  count = count-1;
+  element.style.backgroundColor = '#0d6efd';
+  document.getElementById(id).className += "submit2";
+  
+}
+else{
+  element.style.backgroundColor = '#dc3545';
+  count = count +1;
+
+  }
+  if(count == 0){
+	  document.getElementById("trashButton").style.visibility = "hidden";
+  }
+  
+console.log(element.style.backgroundColor)
+console.log(count);
+
+}
+</script>
+<th:block  th:each="mailbox : ${mailbox}">
+<tr  th:id="${mailbox.id}"class= "submit2"> 
+		<th  th:id="${mailbox.id}"> <input type="checkbox" name="id" th:value="${mailbox.id}"th:onclick="myFunction([[${mailbox.id}]],'red')"/> </th>
+		<th:block th:switch="${page}">
+  		<td >
+    	<div th:case="home">
+    		<p  th:text="${mailbox.sender}"></p>
+    	</div>
+    	<div th:case="sent">
+    		<p  th:text="${mailbox.sender}"></p>
+    	</div>
+    	
+    	<div th:case="trashBox">
+    		<p   th:text="${mailbox.sender}"></p>
+    	</div>
+    
+    	<div th:case="outbox">
+    		<p   th:text="${mailbox.receiverName}"></p>
+    	</div>
+    	</td>
+    	</th:block>
+    	
+        <td >
+        <a  th:href="@{/openMessage/{id}(id = ${mailbox.id})}" th:text="${mailbox.subject}"></a>
+         </td>
+                <td >
+        <p   th:text="${mailbox.msgDate}"></p>
+         </td>
+
+
+    </tr>
+    </th:block>
+
+
+</table>
+</form>
+
+</div>
+<div th:case="true">
+<table>
+<tr>
+<td><h4> From: </h4></td>
+<td><h4 th:text="${sentFrom}">			</h4>
+</tr>
+<tr>
+<td><h4> Date: </h4></td>
+<td><h4 th:text="${sentDate}">			</h4>
+</tr>
+<tr>
+<td><h4> Subject: </h4></td>
+<td><h4 th:text="${sentSubject}">			</h4>
+</tr>
+<tr>
+<td><h4> Message: </h4></td>
+<td><h4 th:text="${msg}">			</h4>
+</tr>
+</table>
+
+<button class="submit" ><a  th:href="@{/closeMessage}" ><span>Inbox</span></a></button><br>
+</div>
+</th:block>
+  
+  
+  </div>
+ 	<div class="grid-item item7">
+ <a  th:href="@{/missionStatement}" > <span>Mission Statement</span></a><br>
+  <a  th:href="@{/FAQ}" > <span>Frequently Asked Questions</span></a><br>
+    <a  th:href="@{/application}" > <span>Work With Us</span></a><br>
+ 	</div>
+ 	 	<div class="grid-item item8">
+ <a  th:href="@{/missionStatement}" > <span>Mission Statement</span></a><br>
+  <a  th:href="@{/FAQ}" > <span>Frequently Asked Questions</span></a><br>
+    <a  th:href="@{/application}" > <span>Work With Us</span></a><br>
+ 	</div>
+ 	 	<div class="grid-item item9">
+ <a  th:href="@{/missionStatement}" > <span>Mission Statement</span></a><br>
+  <a  th:href="@{/FAQ}" > <span>Frequently Asked Questions</span></a><br>
+    <a  th:href="@{/application}" > <span>Work With Us</span></a><br>
+ 	</div>
+
+
+
+</div>
+</body>
+</html>

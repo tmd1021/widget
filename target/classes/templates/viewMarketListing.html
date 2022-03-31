@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" style="height: 100%;">
+	<head>
+		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+		<meta charset="ISO-8859-1">
+		<!-- Later, the title should hold the name of the Widget the MarketListing was made for -->
+		<title>Market Listing</title>
+	</head>
+	<body>
+		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+		
+		<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+			<div class="container-fluid">
+				<div class="collapse navbar-collapse" id="navbarSupportedContent">
+					<ul class="navbar-nav me-auto mb-2 mb-lg-0">
+						<li class="nav-item">
+							<a class="nav-link" href="/homePage">Homepage</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" href="/userDetails">User Account</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</nav>
+		
+		<div class="card mx-auto my-5" style="width: 62rem;">
+			<div class="card-header d-flex justify-content-center">
+				<h1 th:text="${widget.name}"></h1>
+			</div>
+			<div class="card-body">
+				<!-- Actions row if buyer -->
+				<div class="d-flex justify-content-center my-2">
+					<div class="btn-group btn-group-lg" role="group" aria-label="Non purchase actions" th:if="${isBuyer}">
+						<form action="#" th:action="@{/viewMarketListing/returnToListings}" method="post">
+							<button type="submit" class="btn btn-outline-primary">Return Home</button>
+						</form>
+						<form action="#" th:action="@{/viewMarketListing/wishlistItem}" method="post">
+							<button type="submit" class="btn btn-outline-primary">Wishlist Item</button>
+						</form>
+						<form action="/viewMarketListing/openMessage">
+							<button type="submit" class="btn btn-outline-primary">Message Seller</button>
+						</form>
+					</div>
+				</div>
+<th:block th:switch="${page}">
+
+    <div th:case="openMessage">
+    	<form th:action="@{/marketSendMail}" method="post">
+      <table>
+        	<tr>
+    			<th>Compose Message</th>
+  			</tr>
+  			<tr>
+  			<td> To: <p th:text="${seller}"></p></td>
+  			</tr>
+            <tr>
+            <td><div><label> Subject : <input type="text" name="subject"/> </label></div></td>
+            </tr>
+            <tr>
+            <td><div><label> Message: </label></div>
+           <textarea id="message" name="message" rows="4" cols="50"></textarea>
+            <div><input type="submit" class="btn btn-outline-primary" value="Send"/></div>
+            </form>
+           <form action="/viewMarketListing/closeMessage">
+							<button type="submit" class="btn btn-outline-primary">Cancel</button>
+						</form>
+            </tr>
+      </table>
+        
+
+    </div>
+    <div th:case="Success">
+    <h4>Message Sent Successfully</h4>
+    </div>
+    </th:block>
+				<!-- Actions row if seller -->
+				<div class="d-flex justify-content-center my-2">
+					<div class="btn-group" th:if="${!isBuyer}">
+						<form action="#" th:action="@{/viewMarketListing/returnToListings}" method="post">
+							<button type="submit" class="btn btn-outline-primary">Return to Listings</button>
+						</form>
+						<form action="#" th:action="@{/viewMarketListing/deleteListing}" method="post">
+							<button type="submit" class="btn btn-outline-primary">Remove Posting</button>
+						</form>
+					</div>
+				</div>
+				<div class="my-2">
+					<div class="d-flex justify-content-center">
+						<h2>Listing Details</h2>
+					</div>
+					<ul class="list-group">
+						<li class="list-group-item">Number Available: <span th:text="${currListing.qtyAvailable}"></span></li>
+						<li class="list-group-item">Price: $<span th:text="${currListing.pricePerItem}"></span></li>
+					</ul>				
+				</div>
+				<!-- Test listing info is based on bicycle examples from ebay: https://www.ebay.com/itm/302758849970 -->
+				<div class="my-2" th:if="${widget.category} == appliance">
+					<div class="d-flex justify-content-center">
+						<h2>Product Information</h2>
+					</div>
+					<ul class="list-group" th:if="${widget.subCategory} == 'washer'">
+						<li class="list-group-item">Description: <span th:text="${widget.description}"></span></li>
+						<li class="list-group-item">Length: <span th:text="${appliance.length}"></span> Inches</li>
+						<li class="list-group-item">Width: <span th:text="${appliance.width}"></span> Inches</li>
+						<li class="list-group-item">Height: <span th:text="${appliance.height}"></span> Inches</li>
+						<li class="list-group-item">Color: <span th:text="${appliance.color}"></span></li>
+						<li class="list-group-item">Condition: <span th:text="${appliance.itemCondition}"></span></li>
+						<li class="list-group-item">Model: <span th:text="${washer.model}"></span></li>
+						<li class="list-group-item">Brand: <span th:text="${washer.brand}"></span></li>
+						<li class="list-group-item">Material: <span th:text="${washer.material}"></span></li>
+					</ul>
+					<ul class="list-group" th:if="${widget.subCategory} == 'dryer'">
+						<li class="list-group-item">Description: <span th:text="${widget.description}"></span></li>
+						<li class="list-group-item">Length: <span th:text="${appliance.length}"></span> Inches</li>
+						<li class="list-group-item">Width: <span th:text="${appliance.width}"></span> Inches</li>
+						<li class="list-group-item">Height: <span th:text="${appliance.height}"></span> Inches</li>
+						<li class="list-group-item">Color: <span th:text="${appliance.color}"></span></li>
+						<li class="list-group-item">Condition: <span th:text="${appliance.itemCondition}"></span></li>
+						<li class="list-group-item">Model: <span th:text="${dryer.model}"></span></li>
+						<li class="list-group-item">Brand: <span th:text="${dryer.brand}"></span></li>
+						<li class="list-group-item">Material: <span th:text="${dryer.material}"></span></li>
+					</ul>
+					<ul class="list-group" th:if="${widget.subCategory} == 'fridge'">
+						<li class="list-group-item">Description: <span th:text="${widget.description}"></span></li>
+						<li class="list-group-item">Length: <span th:text="${appliance.length}"></span> Inches</li>
+						<li class="list-group-item">Width: <span th:text="${appliance.width}"></span> Inches</li>
+						<li class="list-group-item">Height: <span th:text="${appliance.height}"></span> Inches</li>
+						<li class="list-group-item">Color: <span th:text="${appliance.color}"></span></li>
+						<li class="list-group-item">Condition: <span th:text="${appliance.itemCondition}"></span></li>
+						<li class="list-group-item">Model: <span th:text="${fridge.model}"></span></li>
+						<li class="list-group-item">Brand: <span th:text="${fridge.brand}"></span></li>
+						<li class="list-group-item">Material: <span th:text="${fridge.material}"></span></li>
+					</ul>
+					<ul class="list-group" th:if="${widget.subCategory} == 'microwave'">
+						<li class="list-group-item">Description: <span th:text="${widget.description}"></span></li>
+						<li class="list-group-item">Length: <span th:text="${appliance.length}"></span> Inches</li>
+						<li class="list-group-item">Width: <span th:text="${appliance.width}"></span> Inches</li>
+						<li class="list-group-item">Height: <span th:text="${appliance.height}"></span> Inches</li>
+						<li class="list-group-item">Color: <span th:text="${appliance.color}"></span></li>
+						<li class="list-group-item">Condition: <span th:text="${appliance.itemCondition}"></span></li>
+						<li class="list-group-item">Model: <span th:text="${microwave.model}"></span></li>
+						<li class="list-group-item">Brand: <span th:text="${microwave.brand}"></span></li>
+						<li class="list-group-item">Material: <span th:text="${microwave.material}"></span></li>
+					</ul>
+				</div>
+				<div class="my-2" th:if="${widget.category} == 'electronic'">
+					<div class="d-flex justify-content-center">
+						<h2>Product Information</h2>
+					</div>
+					<ul class="list-group" th:if="${widget.subCategory} == 'computer'">
+						<li class="list-group-item">Description: <span th:text="${widget.description}"></span></li>
+						<li class="list-group-item">For Office Use?: <span th:text="${electronic.officeUse}"></span></li>
+						<li class="list-group-item">For Entertainment Use?: <span th:text="${electronic.entertainmentUse}"></span></li>
+						<li class="list-group-item">Memory: <span th:text="${computer.memory}"></span> GB</li>
+						<li class="list-group-item">Storage: <span th:text="${computer.storage}"></span></li>
+						<li class="list-group-item">Processor: <span th:text="${computer.processor}"></span></li>
+						<li class="list-group-item">GPU: <span th:text="${computer.gpu}"></span></li>
+					</ul>
+					<ul class="list-group" th:if="${widget.subCategory} == 'videoGame'">
+						<li class="list-group-item">Description: <span th:text="${widget.description}"></span></li>
+						<li class="list-group-item">For Office Use?: <span th:text="${electronic.officeUse}"></span></li>
+						<li class="list-group-item">For Entertainment Use?: <span th:text="${electronic.entertainmentUse}"></span></li>
+						<li class="list-group-item">Developer: <span th:text="${videoGame.developer}"></span></li>
+						<li class="list-group-item">Title: <span th:text="${videoGame.title}"></span></li>
+						<li class="list-group-item">Console: <span th:text="${videoGame.console}"></span></li>
+						<li class="list-group-item">Condition: <span th:text="${videoGame.itemCondition}"></span></li>
+					</ul>
+				</div>
+				<div class="my-2" th:if="${widget.category} == 'lawnCare'">
+					<div class="d-flex justify-content-center">
+						<h2>Product Information</h2>
+					</div>
+					<ul class="list-group" th:if="${widget.subCategory} == 'lawnMower'">
+						<li class="list-group-item">Description: <span th:text="${widget.description}"></span></li>
+						<li class="list-group-item">Yard Size: <span th:text="${lawnCare.yardSize}"></span></li>
+						<li class="list-group-item">Tool Type: <span th:text="${lawnCare.toolType}"></span></li>
+						<li class="list-group-item">Brand: <span th:text="${mower.brand}"></span></li>
+						<li class="list-group-item">Power Source: <span th:text="${mower.powerSource}"></span></li>
+						<li class="list-group-item">Blade Width: <span th:text="${mower.bladeWidth}"></span></li>
+					</ul>
+				</div>
+				<div class="my-2" th:if="${widget.category} == 'vehicle'">
+					<div class="d-flex justify-content-center">
+						<h2>Product Information</h2>
+					</div>
+					<ul class="list-group" th:if="${widget.subCategory} == 'car'">
+						<li class="list-group-item">Description: <span th:text="${widget.description}"></span></li>
+						<li class="list-group-item">Terrain: <span th:text="${vehicle.terrain}"></span></li>
+						<li class="list-group-item">Is it Road Safe?: <span th:text="${vehicle.roadSafe}"></span></li>
+						<li class="list-group-item">Vehicle Condition: <span th:text="${vehicle.condition}"></span></li>
+						<li class="list-group-item">Wheel Drive: <span th:text="${car.wheelDrive}"></span></li>
+						<li class="list-group-item">Transmission Type: <span th:text="${car.transmissionType}"></span></li>
+						<li class="list-group-item">Model: <span th:text="${car.model}"></span></li>
+						<li class="list-group-item">Make: <span th:text="${car.make}"></span></li>
+						<li class="list-group-item">Year: <span th:text="${car.year}"></span></li>
+					</ul>
+				</div>
+				<form th:if="${isBuyer}" id="buy-product" class="row g-3 d-flex justify-content-center my-2" action="#" th:action="@{/viewMarketListing/attemptPurchase}" th:object=${newTransaction} method="post">
+					<div class="col-auto">
+						<label for="qtyBought" class="col-form-label">Number to Buy</label>
+					</div>
+					<div class="col-auto">
+						<input id="qtyBought" class="form-control" name="qtyBought" type="number" th:field="*{qtyBought}" placeholder="Number to Buy"  min="1" th:max="${currListing.qtyAvailable}" value="0" required></input>
+					</div>
+					<div class="col-auto">
+						<input class="btn btn-success" id="buyProduct" 
+							name="buyProduct" type="submit" value="Purchase Items"></input>
+					</div>
+				</form>
+				<form th:if="${!isBuyer}" id="update-listing" class="row g-3 d-flex justify-content-center my-2" action="#" th:action="@{/viewMarketListing/editListing}" th:object=${currListing} method="post">
+					<input type="hidden" th:field="*{id}">
+					<!--  default price must be set to current listing price -->
+					<div class="col-auto">
+						<label for="pricePerItem" class="col-form-label">New Price</label>
+					</div>
+					<div class="col-auto">
+						<input id="pricePerItem" class="form-control" name="pricePerItem" th:field="*{pricePerItem}" type="number" placeholder="New Price" min="0.0" value="0.0" step="0.01" required></input>
+					</div>
+					<div class="col-auto">
+						<label for="qtyAvailable" class="col-form-label">New Quantity</label>
+					</div>
+					<div class="col-auto">
+						<input id="qtyAvailable" class="form-control" name="qtyAvailable" th:field="*{qtyAvailable}" type="number" placeholder="New Quantity" min="0" value="0" required></input>
+					</div>
+					<!--  default quantity must be set to current listing quantity -->
+					<div class="col-auto">
+						<input class="btn btn-primary" id="updateListing" name="updateListing" type="submit" value="Update">
+					</div>
+				</form>
+			</div>
+		</div>
+	</body>
+</html>
